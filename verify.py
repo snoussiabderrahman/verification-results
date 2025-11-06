@@ -388,75 +388,6 @@ def analyze_conflict():
 
 
 
-
-# =============================================================
-import matplotlib.pyplot as plt
-
-def visualize_results():
-    """
-    Crée des visualisations pour comparer les méthodes
-    """
-    frame = ['A', 'B', 'C']
-    ds = DSTheory(frame)
-    
-    masses = [
-        {'A': 0.41, 'B': 0.29, 'C': 0.3},
-        {'A': 0.0, 'B': 0.9, 'C': 0.1},
-        {'A': 0.58, 'B': 0.07, 'AC': 0.35},
-        {'A': 0.55, 'B': 0.1, 'AC': 0.35},
-        {'A': 0.6, 'B': 0.1, 'AC': 0.3}
-    ]
-    
-    # Combinaisons progressives
-    results_data = {
-        'Dempster': [],
-        'Murphy': [],
-        'Proposed': []
-    }
-    
-    for n in range(2, 6):
-        selected = masses[:n]
-        
-        # Dempster
-        result = selected[0].copy()
-        for i in range(1, len(selected)):
-            result, _ = ds.dempster_combination(result, selected[i])
-        results_data['Dempster'].append(result.get('A', 0))
-        
-        # Murphy
-        result = ds.murphy_combination(selected)
-        results_data['Murphy'].append(result.get('A', 0))
-        
-        # Proposed
-        result, _ = ds.proposed_method(selected)
-        results_data['Proposed'].append(result.get('A', 0))
-    
-    # Graphique
-    plt.figure(figsize=(12, 6))
-    x = [2, 3, 4, 5]
-    
-    plt.plot(x, results_data['Dempster'], 'o-', label='Dempster', linewidth=2)
-    plt.plot(x, results_data['Murphy'], 's-', label='Murphy', linewidth=2)
-    plt.plot(x, results_data['Proposed'], '^-', label='Méthode Proposée', linewidth=2)
-    
-    plt.xlabel('Nombre d\'évidences combinées', fontsize=12)
-    plt.ylabel('m(A)', fontsize=12)
-    plt.title('Convergence des différentes méthodes de combinaison', fontsize=14)
-    plt.legend(fontsize=11)
-    plt.grid(True, alpha=0.3)
-    plt.xticks(x)
-    
-    plt.tight_layout()
-    plt.savefig('comparison_methods.png', dpi=300)
-    plt.show()
-    
-    print("\nGraphique sauvegardé: comparison_methods.png")
-
-# Pour exécuter la visualisation
-# visualize_results()
-
-
-
 # Exécuter tous les tests
 if __name__ == "__main__":
     print("DÉBUT DE LA VÉRIFICATION\n")
@@ -470,8 +401,6 @@ if __name__ == "__main__":
     # Analyser les conflits
     analyze_conflict()
     
-    # Créer les visualisations (décommenter si matplotlib est disponible)
-    #visualize_results()
     
     print("\n" + "="*80)
     print("FIN DE LA VÉRIFICATION")
